@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     tvResult.setText("Code: " + response.code());
                 }
+
+                News news = response.body();
             }
 
             @Override

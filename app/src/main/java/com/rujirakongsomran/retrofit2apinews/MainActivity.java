@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         tvResult = (TextView) findViewById(R.id.tvResult);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://newsapi.org/")
+                .baseUrl("https://newsapi.org/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

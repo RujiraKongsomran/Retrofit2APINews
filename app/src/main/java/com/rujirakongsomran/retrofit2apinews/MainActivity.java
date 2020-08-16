@@ -1,12 +1,13 @@
 package com.rujirakongsomran.retrofit2apinews;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.rujirakongsomran.retrofit2apinews.Model.News;
+import com.rujirakongsomran.retrofit2apinews.databinding.ActivityMainBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,18 +16,22 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tvResult;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        
+        //setContentView(R.layout.activity_main);
 
         initInstances();
     }
 
     private void initInstances() {
-        tvResult = (TextView) findViewById(R.id.tvResult);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://newsapi.org/")
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (!response.isSuccessful()) {
-                    tvResult.setText("Code: " + response.code());
+                    binding.tvResult.setText("Code: " + response.code());
                 }
 
                 News news = response.body();
@@ -47,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String json = gson.toJson(news);
                 String jsonFormat = formatString(json);
-                tvResult.setText(jsonFormat);
+                binding.tvResult.setText(jsonFormat);
             }
 
             @Override
             public void onFailure(Call<News> call, Throwable t) {
-                tvResult.setText("Code: " + t.getMessage());
+                binding.tvResult.setText("Code: " + t.getMessage());
             }
         });
     }
